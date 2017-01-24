@@ -4,10 +4,14 @@ import piece.Piece;
 
 public class Player {
 
-	int finished = 0;
-	int piecesOnBoard = 0;
+	// number of pieces finished
+	private int finished = 0;
 	
-	public Piece[] pieces = new Piece[4];
+	// number of pieces currently on the board
+	private int piecesOnBoard = 0;
+	
+	// each player starts with 4 available pieces to be played
+	private Piece[] pieces = new Piece[4];
 	
 	public Player() {
 		for (int i = 0; i < 4; i++) {
@@ -24,6 +28,11 @@ public class Player {
 			}
 		}
 		return 0;
+	}
+	
+	// get the piece from pieces array
+	public Piece getPiece(int index) {
+		return pieces[index];
 	}
 	
 	// return number of pieces that are finished

@@ -57,7 +57,7 @@ public class Main {
 				// if none on the board, then get the first piece available
 				int nextPiece = p1.nextPiece();
 				// get the location of the piece that's about to move
-				int startLocation = p1.pieces[nextPiece].getLocation();
+				int startLocation = p1.getPiece(nextPiece).getLocation();
 				System.out.println("Your piece is currently at location " + Integer.toString(startLocation));
 				System.out.println();
 				// calculate the possible destinations to move to
@@ -70,9 +70,12 @@ public class Main {
 				}
 				System.out.println();
 				System.out.println("Here is the current map");
-				b.printBoard(b.boardArray);
+				b.printBoard();
+				System.out.println("Here is a map for reference");
+				b.printBoardReference();
 
 				do {
+					// only valid destinations are allowed
 					System.out.println("Please enter a destination to move to");
 					moveInput = sc.nextInt();
 					if ((moveInput > 0 && moveInput == possibleDestination[0]) || (moveInput > 0 && moveInput == possibleDestination[1])) {
@@ -82,7 +85,7 @@ public class Main {
 				sc.nextLine();
 				validInput = false;
 				
-				p1.pieces[nextPiece].setLocation(moveInput);
+				p1.getPiece(nextPiece).setLocation(moveInput);
 				if (moveInput > 29) {
 					p1.addFinished();
 					System.out.println("You have finished a piece");
@@ -93,16 +96,16 @@ public class Main {
 					return;
 				}
 				
-				if (startLocation == -1) {
-					b.boardArray[moveInput] = b.boardArray[moveInput] + 1;
+				if (startLocation == 0) {
+					b.setCount(moveInput, b.getCount(moveInput) + 1);
 				}
 				else {
-					b.boardArray[startLocation] = b.boardArray[startLocation] - 1;
-					b.boardArray[moveInput] = b.boardArray[moveInput] + 1;
+					b.setCount(startLocation, b.getCount(startLocation) - 1);
+					b.setCount(moveInput, b.getCount(moveInput) + 1);
 				}
 			}
 			else if (userInput.equalsIgnoreCase("v")) {
-				b.printBoard(b.boardArray);
+				b.printBoard();
 			}
 			else if (userInput.equalsIgnoreCase("s")) {
 				System.out.println("You have " + Integer.toString(p1.getPieces()) + " piece(s) currently on the board");

@@ -16,7 +16,9 @@ public class Board {
 	
 	// position 5, 10, and 22 are special as player can change direction
 	
-	public int[] boardArray = new int[30];
+	
+	// keeps track of number of pieces at the board location
+	private int[] boardArray = new int[30];
 	
 	// creates the board
 	// initially no player have pieces on the board, set position to -1
@@ -26,10 +28,20 @@ public class Board {
 		}
 	}
 	
+	// return how many pieces are currently at this location
+	public int getCount(int index) {
+		return boardArray[index];
+	}
+	
+	// update number of pieces at the location
+	public void setCount(int index, int value) {
+		boardArray[index] = value;
+	}
+	
 	// determine how many spaces the piece will move on the board
 	public int throwStick() {
 		
-		// when thrown, the sticks are either "over" or "under".
+		// when thrown, the sticks are either "over" or "under"
 		// the stick have 2 sides
 		int over = 0;
 		int up = 0;
@@ -222,7 +234,7 @@ public class Board {
 	}
 	
 	
-	public void printBoard(int[] boardArray) {
+	public void printBoard() {
 		System.out.print(Integer.toString(boardArray[10]) + "  ");
 		System.out.print(Integer.toString(boardArray[9]) + "  ");
 		System.out.print(Integer.toString(boardArray[8]) + "  ");
@@ -249,7 +261,7 @@ public class Board {
 		System.out.println();
 		System.out.println();
 		
-		System.out.print("        " + boardArray[22]);
+		System.out.print("        " + Integer.toString(boardArray[22]));
 		
 		System.out.println();
 		System.out.println();
@@ -276,6 +288,65 @@ public class Board {
 		System.out.print(Integer.toString(boardArray[18]) + "  ");
 		System.out.print(Integer.toString(boardArray[19]) + "  ");
 		System.out.print(Integer.toString(boardArray[0]));
+		
+		System.out.println();
+		System.out.println();
+	}
+	
+	public void printBoardReference() {
+		System.out.print(Integer.toString(10) + "  ");
+		System.out.print(Integer.toString(9) + "  ");
+		System.out.print(Integer.toString(8) + "  ");
+		System.out.print(Integer.toString(7) + "  ");
+		System.out.print(Integer.toString(6) + "  ");
+		System.out.print(Integer.toString(5));
+		
+		System.out.println();
+		System.out.println();
+		
+		System.out.print(Integer.toString(11) + "  ");
+		System.out.print(Integer.toString(25) + "        ");
+		System.out.print(Integer.toString(20) + "  ");
+		System.out.print(Integer.toString(4));
+		
+		System.out.println();
+		System.out.println();
+		
+		System.out.print(Integer.toString(12) + "    ");
+		System.out.print(Integer.toString(26) + "    ");
+		System.out.print(Integer.toString(21) + "    ");
+		System.out.print(Integer.toString(3));
+		
+		System.out.println();
+		System.out.println();
+		
+		System.out.print("        " + Integer.toString(22));
+		
+		System.out.println();
+		System.out.println();
+		
+		System.out.print(Integer.toString(13) + "    ");
+		System.out.print(Integer.toString(23) + "    ");
+		System.out.print(Integer.toString(28) + "    ");
+		System.out.print(Integer.toString(2));
+		
+		System.out.println();
+		System.out.println();
+		
+		System.out.print(Integer.toString(14) + "  ");
+		System.out.print(Integer.toString(24) + "        ");
+		System.out.print(Integer.toString(29) + "  ");
+		System.out.print(Integer.toString(1));
+		
+		System.out.println();
+		System.out.println();
+		
+		System.out.print(Integer.toString(15) + "  ");
+		System.out.print(Integer.toString(16) + "  ");
+		System.out.print(Integer.toString(17) + "  ");
+		System.out.print(Integer.toString(18) + "  ");
+		System.out.print(Integer.toString(19) + "  ");
+		System.out.print(Integer.toString(0));
 		
 		System.out.println();
 		System.out.println();
