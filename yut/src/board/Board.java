@@ -111,7 +111,7 @@ public class Board {
 			}
 			else if (stick == 3) {
 				result[0] = 15;
-				result[1] = 30;
+				result[1] = 0;
 			}
 			else if (stick == 4) {
 				result[0] = 16;
@@ -179,6 +179,9 @@ public class Board {
 			if (stick == 2) {
 				result[0] = 22;
 			}
+			else if (stick == 5) {
+				result[0] = 0;
+			}
 			else {
 				result[0] = 25 + stick;
 			}
@@ -187,44 +190,62 @@ public class Board {
 			if (stick == 1) {
 				result[0] = 22;
 			}
+			else if (stick == 4) {
+				result[0] = 0;
+			}
 			else {
-				result[0] = 25 + stick;
+				result[0] = 26 + stick;
 			}
 		}
 		else if (begin == 15) {
 			if (stick == 5) {
-				result[0] = 29;
+				result[0] = 0;
 			}
 			else {
 				result[0] = 15 + stick;
 			}
 		}
 		else if (begin == 16) {
-			if (stick > 3) {
-				result[0] = 25 + stick;
+			if (stick == 4) {
+				result[0] = 0;
+			}
+			else if (stick == 5) {
+				result[0] = 30;
 			}
 			else {
 				result[0] = 16 + stick;
 			}
 		}
 		else if (begin == 17) {
-			if (stick > 2) {
-				result[0] = 26 + stick;
+			if (stick == 3) {
+				result[0] = 0;
+			}
+			else if (stick > 3) {
+				result[0] = 30;
 			}
 			else {
 				result[0] = 17 + stick;
 			}
 		}
 		else if (begin == 18) {
-			if (stick > 1) {
-				result[0] = 27 + stick;
+			if (stick == 1) {
+				result[0] = 19;
+			}
+			else if (stick == 2) {
+				result[0] = 0;
 			}
 			else {
-				result[0] = 18 + stick;
+				result[0] = 30;
 			}
+
 		}
 		else if (begin == 19) {
-			result[0] = 28 + stick;
+			if (stick == 1) {
+				result[0] = 0;
+			}
+			else {
+				result[0] = 30;
+			}
 		}
 		else {
 			result[0] = begin + stick;
@@ -294,61 +315,55 @@ public class Board {
 	}
 	
 	public void printBoardReference() {
-		System.out.print(Integer.toString(10) + "  ");
+		System.out.print(Integer.toString(10) + " ");
 		System.out.print(Integer.toString(9) + "  ");
 		System.out.print(Integer.toString(8) + "  ");
 		System.out.print(Integer.toString(7) + "  ");
 		System.out.print(Integer.toString(6) + "  ");
-		System.out.print(Integer.toString(5));
+		System.out.println(Integer.toString(5));
 		
 		System.out.println();
-		System.out.println();
 		
-		System.out.print(Integer.toString(11) + "  ");
-		System.out.print(Integer.toString(25) + "        ");
-		System.out.print(Integer.toString(20) + "  ");
-		System.out.print(Integer.toString(4));
-		
-		System.out.println();
-		System.out.println();
-		
-		System.out.print(Integer.toString(12) + "    ");
-		System.out.print(Integer.toString(26) + "    ");
-		System.out.print(Integer.toString(21) + "    ");
-		System.out.print(Integer.toString(3));
+		System.out.print(Integer.toString(11) + " ");
+		System.out.print(Integer.toString(25) + "       ");
+		System.out.print(Integer.toString(20) + " ");
+		System.out.println(Integer.toString(4));
 		
 		System.out.println();
-		System.out.println();
 		
-		System.out.print("        " + Integer.toString(22));
-		
-		System.out.println();
-		System.out.println();
-		
-		System.out.print(Integer.toString(13) + "    ");
-		System.out.print(Integer.toString(23) + "    ");
-		System.out.print(Integer.toString(28) + "    ");
-		System.out.print(Integer.toString(2));
+		System.out.print(Integer.toString(12) + "   ");
+		System.out.print(Integer.toString(26) + "   ");
+		System.out.print(Integer.toString(21) + "   ");
+		System.out.println(Integer.toString(3));
 		
 		System.out.println();
-		System.out.println();
 		
-		System.out.print(Integer.toString(14) + "  ");
-		System.out.print(Integer.toString(24) + "        ");
-		System.out.print(Integer.toString(29) + "  ");
-		System.out.print(Integer.toString(1));
+		System.out.println("        " + Integer.toString(22));
 		
 		System.out.println();
+		
+		System.out.print(Integer.toString(13) + "   ");
+		System.out.print(Integer.toString(23) + "   ");
+		System.out.print(Integer.toString(28) + "   ");
+		System.out.println(Integer.toString(2));
+		
 		System.out.println();
 		
-		System.out.print(Integer.toString(15) + "  ");
-		System.out.print(Integer.toString(16) + "  ");
-		System.out.print(Integer.toString(17) + "  ");
-		System.out.print(Integer.toString(18) + "  ");
-		System.out.print(Integer.toString(19) + "  ");
+		System.out.print(Integer.toString(14) + " ");
+		System.out.print(Integer.toString(24) + "       ");
+		System.out.print(Integer.toString(29) + " ");
+		System.out.println(Integer.toString(1));
+		
+		System.out.println();
+		
+		System.out.print(Integer.toString(15) + " ");
+		System.out.print(Integer.toString(16) + " ");
+		System.out.print(Integer.toString(17) + " ");
+		System.out.print(Integer.toString(18) + " ");
+		System.out.print(Integer.toString(19) + " ");
 		System.out.print(Integer.toString(0));
-		
-		System.out.println();
+		System.out.println(" 30(Finish)");
+
 		System.out.println();
 	}
 }

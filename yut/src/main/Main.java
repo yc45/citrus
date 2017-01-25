@@ -58,8 +58,15 @@ public class Main {
 				int nextPiece = p1.nextPiece();
 				// get the location of the piece that's about to move
 				int startLocation = p1.getPiece(nextPiece).getLocation();
-				System.out.println("Your piece is currently at location " + Integer.toString(startLocation));
-				System.out.println();
+				if (startLocation == -1) {
+					System.out.println("Your piece is currently off the board");
+					System.out.println();
+				}
+				else {
+					System.out.println("Your piece is currently at location " + Integer.toString(startLocation));
+					System.out.println();
+				}
+				
 				// calculate the possible destinations to move to
 				int[] possibleDestination = b.possibleLocation(startLocation, sticks);
 				if (possibleDestination[1] == -1) {
@@ -71,32 +78,39 @@ public class Main {
 				System.out.println();
 				System.out.println("Here is the current map");
 				b.printBoard();
-				System.out.println("Here is a map for reference");
+				System.out.println("Here is a map for location reference");
 				b.printBoardReference();
 
 				do {
 					// only valid destinations are allowed
 					System.out.println("Please enter a destination to move to");
 					moveInput = sc.nextInt();
-					if ((moveInput > 0 && moveInput == possibleDestination[0]) || (moveInput > 0 && moveInput == possibleDestination[1])) {
+					if ((moveInput == possibleDestination[0]) || (moveInput == possibleDestination[1])) {
 						validInput = true;
 					}
 				} while (!validInput);
 				sc.nextLine();
 				validInput = false;
 				
+				// move the piece
 				p1.getPiece(nextPiece).setLocation(moveInput);
+				
+				// if piece passes finish line
 				if (moveInput > 29) {
 					p1.addFinished();
 					System.out.println("You have finished a piece");
+					
+					if (p1.hasWon()) {
+						System.out.println("Congratulations! You have won!");
+						return;
+					}
+					
+					b.setCount(startLocation, b.getCount(startLocation) - 1);
+					continue;
 				}
-				
-				if (p1.hasWon()) {
-					System.out.println("Congratulations! You have won!");
-					return;
-				}
-				
-				if (startLocation == 0) {
+
+				// update piece locations
+				if (startLocation == -1) {
 					b.setCount(moveInput, b.getCount(moveInput) + 1);
 				}
 				else {

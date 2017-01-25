@@ -23,7 +23,7 @@ public class Player {
 	// if no pieces in play then return the first piece
 	public int nextPiece() {
 		for (int i = 0; i < 4; i++) {
-			if (pieces[i].getLocation() != 0) {
+			if (pieces[i].getLocation() != -1 || pieces[i].getLocation() != 30) {
 				return i;
 			}
 		}
