@@ -26,7 +26,7 @@ public class Main {
 		// take user input
 		sc = new Scanner(System.in);
 		String userInput;
-		int moveInput;
+		String moveInput;
 		
 		
 		while (true) {
@@ -56,9 +56,11 @@ public class Main {
 				// find the index of the piece that's already on the board
 				// if none on the board, then get the first piece available
 				int nextPiece = p1.nextPiece();
+
 				// get the location of the piece that's about to move
 				int startLocation = p1.getPiece(nextPiece).getLocation();
 				if (startLocation == -1) {
+					p1.addPieces();
 					System.out.println("Your piece is currently off the board");
 					System.out.println();
 				}
@@ -84,20 +86,20 @@ public class Main {
 				do {
 					// only valid destinations are allowed
 					System.out.println("Please enter a destination to move to");
-					moveInput = sc.nextInt();
-					if ((moveInput == possibleDestination[0]) || (moveInput == possibleDestination[1])) {
+					moveInput = sc.nextLine();
+					if ((moveInput.equals(Integer.toString(possibleDestination[0]))) || (moveInput.equals(Integer.toString(possibleDestination[1])))) {
 						validInput = true;
 					}
 				} while (!validInput);
-				sc.nextLine();
 				validInput = false;
 				
 				// move the piece
-				p1.getPiece(nextPiece).setLocation(moveInput);
+				p1.getPiece(nextPiece).setLocation(Integer.parseInt(moveInput));
 				
 				// if piece passes finish line
-				if (moveInput > 29) {
+				if (Integer.parseInt(moveInput) == 30) {
 					p1.addFinished();
+					p1.removePieces();
 					System.out.println("You have finished a piece");
 					
 					if (p1.hasWon()) {
@@ -111,11 +113,11 @@ public class Main {
 
 				// update piece locations
 				if (startLocation == -1) {
-					b.setCount(moveInput, b.getCount(moveInput) + 1);
+					b.setCount(Integer.parseInt(moveInput), b.getCount(Integer.parseInt(moveInput)) + 1);
 				}
 				else {
 					b.setCount(startLocation, b.getCount(startLocation) - 1);
-					b.setCount(moveInput, b.getCount(moveInput) + 1);
+					b.setCount(Integer.parseInt(moveInput), b.getCount(Integer.parseInt(moveInput)) + 1);
 				}
 			}
 			else if (userInput.equalsIgnoreCase("v")) {

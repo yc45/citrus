@@ -193,8 +193,30 @@ public class Board {
 			else if (stick == 4) {
 				result[0] = 0;
 			}
+			else if (stick == 5) {
+				result[0] = 30;
+			}
 			else {
 				result[0] = 26 + stick;
+			}
+		}
+		else if (begin == 28) {
+			if (stick == 1) {
+				result[0] = 29;
+			}
+			else if (stick == 2) {
+				result[0] = 0;
+			}
+			else {
+				result[0] = 30;
+			}
+		}
+		else if (begin == 29) {
+			if (stick == 1) {
+				result[0] = 0;
+			}
+			else {
+				result[0] = 30;
 			}
 		}
 		else if (begin == 15) {
@@ -246,6 +268,9 @@ public class Board {
 			else {
 				result[0] = 30;
 			}
+		}
+		else if (begin == 0) {
+			result[0] = 30;
 		}
 		else {
 			result[0] = begin + stick;
