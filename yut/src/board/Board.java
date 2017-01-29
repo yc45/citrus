@@ -1,53 +1,77 @@
 package board;
 
-public class Board {
+import java.util.ArrayList;
 
+public class Board {
 	/*represent board
-	  
+
 	  10 9  8  7  6  5
+
 	  11 25       20 4
+
 	  12    26  21   3
+
 	          22
+
 	  13    23  27   2
+
 	  14 24       28 1
-	  15 16 17 18 19(0 or 29)
-	  
-	  */
-	
+
+	  15 16 17 18 19 0 30(finish)
+	  				
+	  				-1
+
+	*/
+
 	// position 5, 10, and 22 are special as player can change direction
-	
-	
+	// -1 is off the board
+	// 30 is finished
+
 	// keeps track of number of pieces at the board location
 	private int[] boardArray = new int[30];
-	
+
+	// keep track of sticks thrown for the turn
+	private ArrayList<Integer> stickArray = new ArrayList<Integer>();
+
 	// creates the board
-	// initially no player have pieces on the board, set position to -1
+	// initially no player have pieces on the board
 	public Board() {
 		for (int i = 0; i < 30; i++) {
 			boardArray[i] = 0;
 		}
 	}
-	
-	// return how many pieces are currently at this location
-	public int getCount(int index) {
-		return boardArray[index];
+
+	// add throw result to the stick array
+	public void addStickArray(int value) {
+		stickArray.add(value);
 	}
-	
-	// update number of pieces at the location
-	public void setCount(int index, int value) {
-		boardArray[index] = value;
+
+	public void removeStickArray(int index) {
+		stickArray.remove(index);
 	}
-	
+
+	public int getSizeStickArray() {
+		return stickArray.size();
+	}
+
+	public int getValueStickArray(int index) {
+		return stickArray.get(index);
+	}
+
+	public int getIndexStickArray(int value) {
+		return stickArray.indexOf(value);
+	}
+
 	// determine how many spaces the piece will move on the board
 	public int throwStick() {
-		
+
 		// when thrown, the sticks are either "over" or "under"
 		// the stick have 2 sides
 		int over = 0;
 		int up = 0;
-		
+
 		int result;
-		
+
 		// throw 4 sticks and see which side they land on
 		for (int i = 0; i < 4; i++) {
 			result = (int) (Math.random() * 2);
@@ -58,8 +82,8 @@ public class Board {
 				up++;
 			}
 		}
-		
-		switch(over) {
+
+		switch (over) {
 		case 0:
 			return 5;
 		case 1:
@@ -71,17 +95,17 @@ public class Board {
 		case 4:
 			return 4;
 		}
-		
+
 		// code shouldn't reach here
 		return -1;
 	}
-	
+
 	// > 29 means reaches the finish line
 	public int[] possibleLocation(int begin, int stick) {
 		int[] result = new int[2];
 		result[0] = -1;
 		result[1] = -1;
-		
+
 		// check if it's on space that have multiple directions
 		if (begin == -1) {
 			result[0] = 0 + stick;
@@ -275,70 +299,10 @@ public class Board {
 		else {
 			result[0] = begin + stick;
 		}
-		
+
 		return result;
 	}
-	
-	
-	public void printBoard() {
-		System.out.print(Integer.toString(boardArray[10]) + "  ");
-		System.out.print(Integer.toString(boardArray[9]) + "  ");
-		System.out.print(Integer.toString(boardArray[8]) + "  ");
-		System.out.print(Integer.toString(boardArray[7]) + "  ");
-		System.out.print(Integer.toString(boardArray[6]) + "  ");
-		System.out.print(Integer.toString(boardArray[5]));
-		
-		System.out.println();
-		System.out.println();
-		
-		System.out.print(Integer.toString(boardArray[11]) + "  ");
-		System.out.print(Integer.toString(boardArray[25]) + "        ");
-		System.out.print(Integer.toString(boardArray[20]) + "  ");
-		System.out.print(Integer.toString(boardArray[4]));
-		
-		System.out.println();
-		System.out.println();
-		
-		System.out.print(Integer.toString(boardArray[12]) + "    ");
-		System.out.print(Integer.toString(boardArray[26]) + "    ");
-		System.out.print(Integer.toString(boardArray[21]) + "    ");
-		System.out.print(Integer.toString(boardArray[3]));
-		
-		System.out.println();
-		System.out.println();
-		
-		System.out.print("        " + Integer.toString(boardArray[22]));
-		
-		System.out.println();
-		System.out.println();
-		
-		System.out.print(Integer.toString(boardArray[13]) + "    ");
-		System.out.print(Integer.toString(boardArray[23]) + "    ");
-		System.out.print(Integer.toString(boardArray[28]) + "    ");
-		System.out.print(Integer.toString(boardArray[2]));
-		
-		System.out.println();
-		System.out.println();
-		
-		System.out.print(Integer.toString(boardArray[14]) + "  ");
-		System.out.print(Integer.toString(boardArray[24]) + "        ");
-		System.out.print(Integer.toString(boardArray[29]) + "  ");
-		System.out.print(Integer.toString(boardArray[1]));
-		
-		System.out.println();
-		System.out.println();
-		
-		System.out.print(Integer.toString(boardArray[15]) + "  ");
-		System.out.print(Integer.toString(boardArray[16]) + "  ");
-		System.out.print(Integer.toString(boardArray[17]) + "  ");
-		System.out.print(Integer.toString(boardArray[18]) + "  ");
-		System.out.print(Integer.toString(boardArray[19]) + "  ");
-		System.out.print(Integer.toString(boardArray[0]));
-		
-		System.out.println();
-		System.out.println();
-	}
-	
+
 	public void printBoardReference() {
 		System.out.print(Integer.toString(10) + " ");
 		System.out.print(Integer.toString(9) + "  ");
@@ -346,41 +310,41 @@ public class Board {
 		System.out.print(Integer.toString(7) + "  ");
 		System.out.print(Integer.toString(6) + "  ");
 		System.out.println(Integer.toString(5));
-		
+
 		System.out.println();
-		
+
 		System.out.print(Integer.toString(11) + " ");
 		System.out.print(Integer.toString(25) + "       ");
 		System.out.print(Integer.toString(20) + " ");
 		System.out.println(Integer.toString(4));
-		
+
 		System.out.println();
-		
+
 		System.out.print(Integer.toString(12) + "   ");
 		System.out.print(Integer.toString(26) + "   ");
 		System.out.print(Integer.toString(21) + "   ");
 		System.out.println(Integer.toString(3));
-		
+
 		System.out.println();
-		
+
 		System.out.println("        " + Integer.toString(22));
-		
+
 		System.out.println();
-		
+
 		System.out.print(Integer.toString(13) + "   ");
 		System.out.print(Integer.toString(23) + "   ");
 		System.out.print(Integer.toString(28) + "   ");
 		System.out.println(Integer.toString(2));
-		
+
 		System.out.println();
-		
+
 		System.out.print(Integer.toString(14) + " ");
 		System.out.print(Integer.toString(24) + "       ");
 		System.out.print(Integer.toString(29) + " ");
 		System.out.println(Integer.toString(1));
-		
+
 		System.out.println();
-		
+
 		System.out.print(Integer.toString(15) + " ");
 		System.out.print(Integer.toString(16) + " ");
 		System.out.print(Integer.toString(17) + " ");

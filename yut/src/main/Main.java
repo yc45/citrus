@@ -4,131 +4,174 @@ import java.util.Scanner;
 
 import board.Board;
 import player.Player;
-import piece.Piece;
-
+import helpers.Helpers;
 
 public class Main {
 	private static Scanner sc;
-	
+
 	public static void main(String args[]) {
 		System.out.println("This program let's you play the yut game");
 		System.out.println();
-		
+
 		System.out.println("Setting up the game board...");
 		Board b = new Board();
-		
+
+		// scanner for taking user input
+		sc = new Scanner(System.in);
+
 		System.out.println("Generating player information...");
 		Player p1 = new Player();
-		
+		System.out.println("Please enter your name");
+		String playerName = sc.nextLine();
+		p1.setName(playerName);
+
 		System.out.println("All Set!");
 		System.out.println();
-		
-		// take user input
-		sc = new Scanner(System.in);
-		String userInput;
-		String moveInput;
-		
-		
+
 		while (true) {
-			boolean validInput = false;
 			// validate the user input
 			// only certain commands are allowed
+			boolean validInput = false;
+			String userCommand;
+
 			do {
 				System.out.println("Please input a command. Below are the valid commands.");
 				System.out.println("[M]ove");
-				System.out.println("[V]iew Map");
-				System.out.println("[S]tatus");
 				System.out.println("[Q]uit");
-				userInput =  sc.nextLine();
-				if (userInput.equalsIgnoreCase("m") || userInput.equalsIgnoreCase("v") || userInput.equalsIgnoreCase("q") || userInput.equalsIgnoreCase("s")) {
+				userCommand = sc.nextLine();
+				if (userCommand.equalsIgnoreCase("m") || userCommand.equalsIgnoreCase("move")
+						|| userCommand.equalsIgnoreCase("q")
+						|| userCommand.equalsIgnoreCase("quit")) {
 					validInput = true;
 				}
-			} while (!validInput);
+			}
+			while (!validInput);
 			validInput = false;
+
+			// keep track of turns
+			int turn = 1;
 			
 			// if the user chooses to move the piece
-			if (userInput.equalsIgnoreCase("m")) {
-				// throw the stick
-				int sticks = b.throwStick();
-				System.out.println("You threw a " + Integer.toString(sticks) + " this turn");
-				System.out.println();
+			if (userCommand.equalsIgnoreCase("m") || userCommand.equalsIgnoreCase("move")) {
+				System.out.println("This is turn " + Integer.toString(turn));
 				
-				// find the index of the piece that's already on the board
-				// if none on the board, then get the first piece available
-				int nextPiece = p1.nextPiece();
+				// print the status of the players
+				System.out.println("Player1: " + p1.getName());
+				System.out.println("Piece 1's position: " + p1.getPiece(0).getLocation());
+				System.out.println("Piece 2's position: " + p1.getPiece(1).getLocation());
+				System.out.println("Piece 3's position: " + p1.getPiece(2).getLocation());
+				System.out.println("Piece 4's position: " + p1.getPiece(3).getLocation());
+				System.out.println();
 
-				// get the location of the piece that's about to move
-				int startLocation = p1.getPiece(nextPiece).getLocation();
-				if (startLocation == -1) {
-					p1.addPieces();
-					System.out.println("Your piece is currently off the board");
-					System.out.println();
-				}
-				else {
-					System.out.println("Your piece is currently at location " + Integer.toString(startLocation));
-					System.out.println();
-				}
-				
-				// calculate the possible destinations to move to
-				int[] possibleDestination = b.possibleLocation(startLocation, sticks);
-				if (possibleDestination[1] == -1) {
-					System.out.println("The possible destinations to move to are: " + Integer.toString(possibleDestination[0]));
-				}
-				else {
-					System.out.println("The possible destinations to move to are: " + Integer.toString(possibleDestination[0]) + " and " + Integer.toString(possibleDestination[1]));
-				}
-				System.out.println();
-				System.out.println("Here is the current map");
-				b.printBoard();
-				System.out.println("Here is a map for location reference");
+				// print board reference
+				System.out.println("Here is the board for reference");
 				b.printBoardReference();
 
-				do {
-					// only valid destinations are allowed
-					System.out.println("Please enter a destination to move to");
-					moveInput = sc.nextLine();
-					if ((moveInput.equals(Integer.toString(possibleDestination[0]))) || (moveInput.equals(Integer.toString(possibleDestination[1])))) {
-						validInput = true;
+				// throw the stick
+				// if throw results in a 4 or 5, throw again. maximum 5 throws per turn
+				int throwCount = 0;
+				while (throwCount < 5) {
+					int sticks = b.throwStick();
+					if (sticks > 3) {
+						System.out.println("You threw a " + Integer.toString(sticks)
+								+ " this turn. You get another throw!");
+						b.addStickArray(sticks);
+						throwCount++;
 					}
-				} while (!validInput);
-				validInput = false;
-				
-				// move the piece
-				p1.getPiece(nextPiece).setLocation(Integer.parseInt(moveInput));
-				
-				// if piece passes finish line
-				if (Integer.parseInt(moveInput) == 30) {
-					p1.addFinished();
-					p1.removePieces();
-					System.out.println("You have finished a piece");
-					
-					if (p1.hasWon()) {
-						System.out.println("Congratulations! You have won!");
-						return;
+					else {
+						System.out
+								.println("You threw a " + Integer.toString(sticks) + " this turn.");
+						b.addStickArray(sticks);
+						throwCount++;
+						break;
 					}
-					
-					b.setCount(startLocation, b.getCount(startLocation) - 1);
-					continue;
 				}
 
-				// update piece locations
-				if (startLocation == -1) {
-					b.setCount(Integer.parseInt(moveInput), b.getCount(Integer.parseInt(moveInput)) + 1);
+				// player needs to select all the stick results thrown this turn
+				// and use it all
+				while (b.getSizeStickArray() != 0) {
+					// player chooses a valid piece to move
+					String pieceToMove;
+					do {
+						System.out.println("Which piece would you like to move?");
+						pieceToMove = sc.nextLine();
+						if (Helpers.isInteger(pieceToMove)) {
+							validInput = p1.isValidPiece(Integer.parseInt(pieceToMove));
+						}
+					}
+					while (!validInput);
+					validInput = false;
+
+					// print all the throws for the turn
+					System.out.println("Here are your stick values.");
+					for (int i = 0; i < b.getSizeStickArray(); i++) {
+						System.out.print(b.getValueStickArray(i) + " ");
+					}
+					System.out.println();
+					
+					// player chooses a valid throw to use
+					String throwToUse;
+					do {
+						System.out.println("Which throw would you like to use?");
+						throwToUse = sc.nextLine();
+						if (Helpers.isInteger(throwToUse)) {
+							if (b.getIndexStickArray(Integer.parseInt(throwToUse)) != -1) {
+								b.removeStickArray(
+										b.getIndexStickArray(Integer.parseInt(throwToUse)));
+								validInput = true;
+							}
+						}
+					}
+					while (!validInput);
+					validInput = false;
+
+					// calculate possible locations the piece can move to
+					String moveInput;
+					int[] possibleDestination = b.possibleLocation(
+							p1.getPiece(Integer.parseInt(pieceToMove) - 1).getLocation(),
+							Integer.parseInt(throwToUse));
+					if (possibleDestination[1] == -1) {
+						System.out.println("Piece #" + pieceToMove + " has moved to location "
+								+ Integer.toString(possibleDestination[0]));
+						moveInput = Integer.toString(possibleDestination[0]);
+					}
+					else {
+						System.out.println("The possible destinations to move to are: "
+								+ Integer.toString(possibleDestination[0]) + " and "
+								+ Integer.toString(possibleDestination[1]));
+						do {
+							// only valid destinations are allowed
+							System.out.println("Please enter the destination to move to");
+							moveInput = sc.nextLine();
+							if ((moveInput.equals(Integer.toString(possibleDestination[0])))
+									|| (moveInput
+											.equals(Integer.toString(possibleDestination[1])))) {
+								validInput = true;
+							}
+						}
+						while (!validInput);
+						validInput = false;
+					}
+
+					// move the piece
+					p1.getPiece(Integer.parseInt(pieceToMove) - 1)
+							.setLocation(Integer.parseInt(moveInput));
+
+					// if piece passes finish line
+					if (Integer.parseInt(moveInput) == 30) {
+						p1.addFinished();
+						System.out.println("You have finished a piece");
+
+						if (p1.hasWon()) {
+							System.out.println("Congratulations! You have won!");
+							return;
+						}
+					}
 				}
-				else {
-					b.setCount(startLocation, b.getCount(startLocation) - 1);
-					b.setCount(Integer.parseInt(moveInput), b.getCount(Integer.parseInt(moveInput)) + 1);
-				}
+				// the player's turn ends. increment counter
+				turn++;
 			}
-			else if (userInput.equalsIgnoreCase("v")) {
-				b.printBoard();
-			}
-			else if (userInput.equalsIgnoreCase("s")) {
-				System.out.println("You have " + Integer.toString(p1.getPieces()) + " piece(s) currently on the board");
-				System.out.println("You have finished " + Integer.toString(p1.getFinished()) + " piece(s)");
-				System.out.println();
-			}
-			else if (userInput.equalsIgnoreCase("q")) {
+			else if (userCommand.equalsIgnoreCase("q")) {
 				System.out.println("You have quit the game");
 				return;
 			}
