@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import board.Board;
+import player.HumanPlayer;
 import player.Player;
 import helpers.Helpers;
+import piece.Piece;
 
 public class Main {
 	private static Scanner sc;
@@ -20,12 +22,26 @@ public class Main {
 		// scanner for taking user input
 		sc = new Scanner(System.in);
 
+		// setting up player information
+		Player[] players = new Player[2];
+		
 		System.out.println("Generating player information...");
-		Player p1 = new Player();
-		System.out.println("Please enter your name");
-		String playerName = sc.nextLine();
-		p1.setName(playerName);
-
+		
+		if (args.length == 1 && args[0].equals("1")) {
+			players[0] = new HumanPlayer();
+			System.out.println("Please enter your name");
+			String playerName = sc.nextLine();
+			players[0].setName(playerName);
+		}
+		else if (args.length == 1 && args[0].equals("2")) {
+			System.out.println("2 Player coming soon!");
+			return;
+		}
+		else {
+			System.out.println("Please enter the correct args");
+			return;
+		}
+		
 		System.out.println("All Set!");
 		System.out.println();
 
@@ -57,11 +73,11 @@ public class Main {
 				System.out.println("This is turn " + Integer.toString(turn));
 				
 				// print the status of the players
-				System.out.println("Player1: " + p1.getName());
-				System.out.println("Piece 1's position: " + p1.getPiece(0).getLocation());
-				System.out.println("Piece 2's position: " + p1.getPiece(1).getLocation());
-				System.out.println("Piece 3's position: " + p1.getPiece(2).getLocation());
-				System.out.println("Piece 4's position: " + p1.getPiece(3).getLocation());
+				System.out.println("Player1: " + players[0].getName());
+				System.out.println("Piece 1's position: " + players[0].getPiece(0).getLocation());
+				System.out.println("Piece 2's position: " + players[0].getPiece(1).getLocation());
+				System.out.println("Piece 3's position: " + players[0].getPiece(2).getLocation());
+				System.out.println("Piece 4's position: " + players[0].getPiece(3).getLocation());
 				System.out.println();
 
 				// print board reference
@@ -101,7 +117,7 @@ public class Main {
 						System.out.println("Which piece would you like to move?");
 						pieceToMove = sc.nextLine();
 						if (Helpers.isInteger(pieceToMove)) {
-							validInput = p1.isValidPiece(Integer.parseInt(pieceToMove));
+							validInput = ((HumanPlayer) players[0]).isValidPiece(Integer.parseInt(pieceToMove));
 						}
 					}
 					while (!validInput);
@@ -131,10 +147,10 @@ public class Main {
 					validInput = false;
 
 					// calculate possible locations the piece can move to
-					int startLocation = p1.getPiece(Integer.parseInt(pieceToMove) - 1).getLocation();
+					int startLocation = players[0].getPiece(Integer.parseInt(pieceToMove) - 1).getLocation();
 					String moveInput;
 					int[] possibleDestination = b.possibleLocation(
-							p1.getPiece(Integer.parseInt(pieceToMove) - 1).getLocation(),
+							players[0].getPiece(Integer.parseInt(pieceToMove) - 1).getLocation(),
 							Integer.parseInt(throwToUse));
 					if (possibleDestination[1] == -1) {
 						System.out.println("Piece #" + pieceToMove + " has moved to location "
@@ -163,28 +179,28 @@ public class Main {
 					// move the piece
 
 					// if piece has stack, update location for all the stack pieces
-					int stackSize = p1.getPiece(Integer.parseInt(pieceToMove) - 1)
+					int stackSize = players[0].getPiece(Integer.parseInt(pieceToMove) - 1)
 							.getSizeStackArray();
 					if (stackSize != 0) {
 						for (int i = 0; i < stackSize; i++) {
-							p1.getPiece(p1.getPiece(Integer.parseInt(pieceToMove) - 1)
+							players[0].getPiece(players[0].getPiece(Integer.parseInt(pieceToMove) - 1)
 									.getValueStickArray(i) - 1)
 									.setLocation(Integer.parseInt(moveInput));
 						}
 					}
 					// move the chosen piece
-					p1.getPiece(Integer.parseInt(pieceToMove) - 1)
+					players[0].getPiece(Integer.parseInt(pieceToMove) - 1)
 							.setLocation(Integer.parseInt(moveInput));
 
 					// if piece passes finish line
 					if (Integer.parseInt(moveInput) == 30) {
 						for (int i = 0; i <= stackSize; i++) {
-							p1.addFinished();
+							players[0].addFinished();
 							System.out.println("You have finished a piece");
 						}
 
-						if (p1.hasWon()) {
-							System.out.println("Congratulations! You have won!");
+						if (players[0].hasWon()) {
+							System.out.println("Congratulations! You have won in " + Integer.toString(turn) + " turns!");
 							return;
 						}
 					}
@@ -194,15 +210,15 @@ public class Main {
 							// get the piece number of the pieces that will be stacked
 							ArrayList<Integer> piecesToStack = new ArrayList<Integer>();
 							for (int i = 1; i < 5; i++) {
-								if (p1.getPiece(i-1).getLocation() == Integer.parseInt(moveInput) && !piecesToStack.contains(i)) {
+								if (players[0].getPiece(i-1).getLocation() == Integer.parseInt(moveInput) && !piecesToStack.contains(i)) {
 									piecesToStack.add(i);
 								}
 							}
 							// update the pieces stackArray info
 							for (int i = 0; i < piecesToStack.size(); i++) {
 								for (int j = 0; j < piecesToStack.size(); j++) {
-									if (i != j && p1.getPiece(piecesToStack.get(i) - 1).getIndexStackArray(piecesToStack.get(j)) == -1) {
-										p1.getPiece(piecesToStack.get(i) - 1).addStackArray(piecesToStack.get(j));
+									if (i != j && players[0].getPiece(piecesToStack.get(i) - 1).getIndexStackArray(piecesToStack.get(j)) == -1) {
+										players[0].getPiece(piecesToStack.get(i) - 1).addStackArray(piecesToStack.get(j));
 									}
 								}
 							}
