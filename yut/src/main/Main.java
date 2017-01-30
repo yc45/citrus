@@ -79,6 +79,10 @@ public class Main {
 						b.addStickArray(sticks);
 						throwCount++;
 					}
+					else if (sticks == 0) {
+						System.out.println("Your sticks broke");
+						break;
+					}
 					else {
 						System.out
 								.println("You threw a " + Integer.toString(sticks) + " this turn.");
@@ -192,7 +196,6 @@ public class Main {
 							for (int i = 1; i < 5; i++) {
 								if (p1.getPiece(i-1).getLocation() == Integer.parseInt(moveInput) && !piecesToStack.contains(i)) {
 									piecesToStack.add(i);
-									System.out.println("added " + Integer.toString(i) + " to piecesToStack");
 								}
 							}
 							// update the pieces stackArray info
@@ -220,8 +223,19 @@ public class Main {
 				turn++;
 			}
 			else if (userCommand.equalsIgnoreCase("q")) {
-				System.out.println("You have quit the game");
-				return;
+				do {
+					System.out.println("Are you sure you want to quit?");
+					String answer = sc.nextLine();
+					if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
+						System.out.println("You have quit the game.");
+						return;
+					}
+					else if (answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n")) {
+						break;
+					}
+				}
+				while (!validInput);
+				validInput = false;
 			}
 		}
 	}

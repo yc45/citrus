@@ -74,7 +74,15 @@ public class Board {
 
 	// determine how many spaces the piece will move on the board
 	public int throwStick() {
-
+		// add special throw, 0 and -1
+		int random = (int)(Math.random() * 100 + 1);
+		if (random < 8) {
+			return 0;
+		}
+		else if (random > 93) {
+			return -1;
+		}
+		
 		// when thrown, the sticks are either "over" or "under"
 		// the stick have 2 sides
 		int over = 0;
@@ -116,200 +124,229 @@ public class Board {
 		result[0] = -1;
 		result[1] = -1;
 
-		// check if it's on space that have multiple directions
-		if (begin == -1) {
-			result[0] = 0 + stick;
-		}
-		else if (begin == 5) {
-			result[0] = 5 + stick;
-			result[1] = 19 + stick;
-		}
-		else if (begin == 10) {
-			if (stick == 3) {
-				result[0] = 13;
-				result[1] = 22;
+		if (stick == -1) {
+			if (begin == -1) {
+				result[0] = -1;
 			}
-			else {
-				result[0] = 10 + stick;
-				result[1] = 24 + stick;
+			else if (begin == 20) {
+				result[0] = 5;
 			}
-		}
-		else if (begin == 22) {
-			if (stick == 1) {
-				result[0] = 23;
-				result[1] = 28;
+			else if (begin == 25) {
+				result[0] = 10;
 			}
-			else if (stick == 2) {
+			else if (begin == 22) {
+				result[0] = 21;
+				result[1] = 26;
+			}
+			else if (begin == 28) {
+				result[0] = 22;
+			}
+			else if (begin == 15) {
 				result[0] = 24;
+			}
+			else if (begin == 0) {
+				result[0] = 19;
 				result[1] = 29;
 			}
-			else if (stick == 3) {
-				result[0] = 15;
-				result[1] = 0;
-			}
-			else if (stick == 4) {
-				result[0] = 16;
-				result[1] = 30;
-			}
-			else if (stick == 5) {
-				result[0] = 17;
-				result[1] = 30;
-			}
-		}
-		else if (begin == 20) {
-			if (stick == 5) {
-				result[0] = 15;
-			}
 			else {
-				result[0] = 20 + stick;
+				result[0] = begin - 1;
 			}
-		}
-		else if (begin == 21) {
-			if (stick == 4) {
-				result[0] = 15;
-			}
-			else if (stick == 5) {
-				result[0] = 16;
-			}
-			else {
-				result[0] = 21 + stick;
-			}
-		}
-		else if (begin == 23) {
-			if (stick == 1) {
-				result[0] = 24;
-			}
-			else if (stick == 2) {
-				result[0] = 15;
-			}
-			else if (stick == 3) {
-				result[0] = 16;
-			}
-			else if (stick == 4) {
-				result[0] = 17;
-			}
-			else if (stick == 5) {
-				result[0] = 18;
-			}
-		}
-		else if (begin == 24) {
-			if (stick == 1) {
-				result[0] = 15;
-			}
-			else if (stick == 2) {
-				result[0] = 16;
-			}
-			else if (stick == 3) {
-				result[0] = 17;
-			}
-			else if (stick == 4) {
-				result[0] = 18;
-			}
-			else if (stick == 5) {
-				result[0] = 19;
-			}
-		}
-		else if (begin == 25) {
-			if (stick == 2) {
-				result[0] = 22;
-			}
-			else if (stick == 5) {
-				result[0] = 0;
-			}
-			else {
-				result[0] = 25 + stick;
-			}
-		}
-		else if (begin == 26) {
-			if (stick == 1) {
-				result[0] = 22;
-			}
-			else if (stick == 4) {
-				result[0] = 0;
-			}
-			else if (stick == 5) {
-				result[0] = 30;
-			}
-			else {
-				result[0] = 26 + stick;
-			}
-		}
-		else if (begin == 28) {
-			if (stick == 1) {
-				result[0] = 29;
-			}
-			else if (stick == 2) {
-				result[0] = 0;
-			}
-			else {
-				result[0] = 30;
-			}
-		}
-		else if (begin == 29) {
-			if (stick == 1) {
-				result[0] = 0;
-			}
-			else {
-				result[0] = 30;
-			}
-		}
-		else if (begin == 15) {
-			if (stick == 5) {
-				result[0] = 0;
-			}
-			else {
-				result[0] = 15 + stick;
-			}
-		}
-		else if (begin == 16) {
-			if (stick == 4) {
-				result[0] = 0;
-			}
-			else if (stick == 5) {
-				result[0] = 30;
-			}
-			else {
-				result[0] = 16 + stick;
-			}
-		}
-		else if (begin == 17) {
-			if (stick == 3) {
-				result[0] = 0;
-			}
-			else if (stick > 3) {
-				result[0] = 30;
-			}
-			else {
-				result[0] = 17 + stick;
-			}
-		}
-		else if (begin == 18) {
-			if (stick == 1) {
-				result[0] = 19;
-			}
-			else if (stick == 2) {
-				result[0] = 0;
-			}
-			else {
-				result[0] = 30;
-			}
-
-		}
-		else if (begin == 19) {
-			if (stick == 1) {
-				result[0] = 0;
-			}
-			else {
-				result[0] = 30;
-			}
-		}
-		else if (begin == 0) {
-			result[0] = 30;
 		}
 		else {
-			result[0] = begin + stick;
-		}
+			// check if it's on space that have multiple directions
+			if (begin == -1) {
+				result[0] = 0 + stick;
+			}
+			else if (begin == 5) {
+				result[0] = 5 + stick;
+				result[1] = 19 + stick;
+			}
+			else if (begin == 10) {
+				if (stick == 3) {
+					result[0] = 13;
+					result[1] = 22;
+				}
+				else {
+					result[0] = 10 + stick;
+					result[1] = 24 + stick;
+				}
+			}
+			else if (begin == 22) {
+				if (stick == 1) {
+					result[0] = 23;
+					result[1] = 28;
+				}
+				else if (stick == 2) {
+					result[0] = 24;
+					result[1] = 29;
+				}
+				else if (stick == 3) {
+					result[0] = 15;
+					result[1] = 0;
+				}
+				else if (stick == 4) {
+					result[0] = 16;
+					result[1] = 30;
+				}
+				else if (stick == 5) {
+					result[0] = 17;
+					result[1] = 30;
+				}
+			}
+			else if (begin == 20) {
+				if (stick == 5) {
+					result[0] = 15;
+				}
+				else {
+					result[0] = 20 + stick;
+				}
+			}
+			else if (begin == 21) {
+				if (stick == 4) {
+					result[0] = 15;
+				}
+				else if (stick == 5) {
+					result[0] = 16;
+				}
+				else {
+					result[0] = 21 + stick;
+				}
+			}
+			else if (begin == 23) {
+				if (stick == 1) {
+					result[0] = 24;
+				}
+				else if (stick == 2) {
+					result[0] = 15;
+				}
+				else if (stick == 3) {
+					result[0] = 16;
+				}
+				else if (stick == 4) {
+					result[0] = 17;
+				}
+				else if (stick == 5) {
+					result[0] = 18;
+				}
+			}
+			else if (begin == 24) {
+				if (stick == 1) {
+					result[0] = 15;
+				}
+				else if (stick == 2) {
+					result[0] = 16;
+				}
+				else if (stick == 3) {
+					result[0] = 17;
+				}
+				else if (stick == 4) {
+					result[0] = 18;
+				}
+				else if (stick == 5) {
+					result[0] = 19;
+				}
+			}
+			else if (begin == 25) {
+				if (stick == 2) {
+					result[0] = 22;
+				}
+				else if (stick == 5) {
+					result[0] = 0;
+				}
+				else {
+					result[0] = 25 + stick;
+				}
+			}
+			else if (begin == 26) {
+				if (stick == 1) {
+					result[0] = 22;
+				}
+				else if (stick == 4) {
+					result[0] = 0;
+				}
+				else if (stick == 5) {
+					result[0] = 30;
+				}
+				else {
+					result[0] = 26 + stick;
+				}
+			}
+			else if (begin == 28) {
+				if (stick == 1) {
+					result[0] = 29;
+				}
+				else if (stick == 2) {
+					result[0] = 0;
+				}
+				else {
+					result[0] = 30;
+				}
+			}
+			else if (begin == 29) {
+				if (stick == 1) {
+					result[0] = 0;
+				}
+				else {
+					result[0] = 30;
+				}
+			}
+			else if (begin == 15) {
+				if (stick == 5) {
+					result[0] = 0;
+				}
+				else {
+					result[0] = 15 + stick;
+				}
+			}
+			else if (begin == 16) {
+				if (stick == 4) {
+					result[0] = 0;
+				}
+				else if (stick == 5) {
+					result[0] = 30;
+				}
+				else {
+					result[0] = 16 + stick;
+				}
+			}
+			else if (begin == 17) {
+				if (stick == 3) {
+					result[0] = 0;
+				}
+				else if (stick > 3) {
+					result[0] = 30;
+				}
+				else {
+					result[0] = 17 + stick;
+				}
+			}
+			else if (begin == 18) {
+				if (stick == 1) {
+					result[0] = 19;
+				}
+				else if (stick == 2) {
+					result[0] = 0;
+				}
+				else {
+					result[0] = 30;
+				}
 
+			}
+			else if (begin == 19) {
+				if (stick == 1) {
+					result[0] = 0;
+				}
+				else {
+					result[0] = 30;
+				}
+			}
+			else if (begin == 0) {
+				result[0] = 30;
+			}
+			else {
+				result[0] = begin + stick;
+			}
+		}
 		return result;
 	}
 
