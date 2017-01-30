@@ -41,6 +41,16 @@ public class Board {
 		}
 	}
 
+	// return how many pieces are currently at this location
+	public int getCount(int index) {
+		return boardArray[index];
+	}
+
+	// update number of pieces at the location
+	public void setCount(int index, int value) {
+		boardArray[index] = value;
+	}
+
 	// add throw result to the stick array
 	public void addStickArray(int value) {
 		stickArray.add(value);
