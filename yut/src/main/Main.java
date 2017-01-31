@@ -24,9 +24,9 @@ public class Main {
 
 		// setting up player information
 		ArrayList<Player> players = new ArrayList<Player>();
-		
+
 		System.out.println("Generating player information...");
-		
+
 		if (args.length == 1 && args[0].equals("1")) {
 			players.add(new HumanPlayer());
 			System.out.println("Please enter your name");
@@ -38,7 +38,7 @@ public class Main {
 			System.out.println("Player 1 please enter your name");
 			String playerName = sc.nextLine();
 			players.get(0).setName(playerName);
-			
+
 			players.add(new HumanPlayer());
 			System.out.println("Player 2 please enter your name");
 			playerName = sc.nextLine();
@@ -48,16 +48,16 @@ public class Main {
 			System.out.println("Please enter the correct args");
 			return;
 		}
-		
+
 		System.out.println("All Set!");
 		System.out.println();
 
 		// keep track of turns
 		int turn = 1;
-		
+
 		// calculate player turn
 		int currentPlayer = 0;
-		
+
 		while (true) {
 			// validate the user input
 			// only certain commands are allowed
@@ -65,12 +65,11 @@ public class Main {
 			String userCommand;
 
 			do {
-				System.out.println("Please input a command. Below are the valid commands.");
+				System.out.println("Please input a command. Below are the valid commands");
 				System.out.println("[M]ove");
 				System.out.println("[Q]uit");
 				userCommand = sc.nextLine();
-				if (userCommand.equalsIgnoreCase("m") || userCommand.equalsIgnoreCase("move")
-						|| userCommand.equalsIgnoreCase("q")
+				if (userCommand.equalsIgnoreCase("m") || userCommand.equalsIgnoreCase("move") || userCommand.equalsIgnoreCase("q")
 						|| userCommand.equalsIgnoreCase("quit")) {
 					validInput = true;
 				}
@@ -78,24 +77,15 @@ public class Main {
 			while (!validInput);
 			validInput = false;
 
-			// if the user chooses to move the piece
+			// if the user chooses to move this turn
 			if (userCommand.equalsIgnoreCase("m") || userCommand.equalsIgnoreCase("move")) {
 				System.out.println("This is turn " + Integer.toString(turn));
-				System.out.println("It's player " + Integer.toString(currentPlayer + 1) + "'s turn");
+				System.out.println("It's " + players.get(currentPlayer).getName() + "'s turn");
 				System.out.println();
 
 				// print the status of the players
 				for (int i = 0; i < Integer.parseInt(args[0]); i++) {
-					System.out.println("Player: " + players.get(i).getName());
-					System.out
-							.println("Piece 1's position: " + players.get(i).getPiece(0).getLocation());
-					System.out
-							.println("Piece 2's position: " + players.get(i).getPiece(1).getLocation());
-					System.out
-							.println("Piece 3's position: " + players.get(i).getPiece(2).getLocation());
-					System.out
-							.println("Piece 4's position: " + players.get(i).getPiece(3).getLocation());
-					System.out.println();
+					players.get(i).printStatus();
 				}
 
 				// print board reference
@@ -103,13 +93,13 @@ public class Main {
 				b.printBoardReference();
 
 				// throw the stick
-				// if throw results in a 4 or 5, throw again. maximum 5 throws per turn
+				// if throw results in a 4 or 5, throw again. maximum 5 throws
+				// per turn
 				int throwCount = 0;
 				while (throwCount < 5) {
 					int sticks = b.throwStick();
 					if (sticks > 3) {
-						System.out.println("You threw a " + Integer.toString(sticks)
-								+ " this turn. You get another throw!");
+						System.out.println("You threw a " + Integer.toString(sticks) + " this turn. You get another throw!");
 						b.addStickArray(sticks);
 						throwCount++;
 					}
@@ -118,8 +108,7 @@ public class Main {
 						break;
 					}
 					else {
-						System.out
-								.println("You threw a " + Integer.toString(sticks) + " this turn.");
+						System.out.println("You threw a " + Integer.toString(sticks) + " this turn");
 						b.addStickArray(sticks);
 						throwCount++;
 						break;
@@ -142,12 +131,12 @@ public class Main {
 					validInput = false;
 
 					// print all the throws for the turn
-					System.out.println("Here are your stick values.");
+					System.out.println("Here are your stick values");
 					for (int i = 0; i < b.getSizeStickArray(); i++) {
 						System.out.print(b.getValueStickArray(i) + " ");
 					}
 					System.out.println();
-					
+
 					// player chooses a valid throw to use
 					String throwToUse;
 					do {
@@ -155,8 +144,7 @@ public class Main {
 						throwToUse = sc.nextLine();
 						if (Helpers.isInteger(throwToUse)) {
 							if (b.getIndexStickArray(Integer.parseInt(throwToUse)) != -1) {
-								b.removeStickArray(
-										b.getIndexStickArray(Integer.parseInt(throwToUse)));
+								b.removeStickArray(b.getIndexStickArray(Integer.parseInt(throwToUse)));
 								validInput = true;
 							}
 						}
@@ -164,34 +152,31 @@ public class Main {
 					while (!validInput);
 					validInput = false;
 
-					// if piece is offboard and throw is -1, then do nothing
-					if (players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation() == -1 && Integer.parseInt(throwToUse) == -1) {
+					// if piece is off the board and throw is -1, then do nothing
+					if (players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation() == -1
+							&& Integer.parseInt(throwToUse) == -1) {
 						continue;
 					}
-					
+
 					// calculate possible locations the piece can move to
 					int startLocation = players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation();
 					String moveInput;
 					int[] possibleDestination = b.possibleLocation(
-							players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation(),
-							Integer.parseInt(throwToUse));
+							players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation(), Integer.parseInt(throwToUse));
 					if (possibleDestination[1] == -1) {
-						System.out.println("Piece #" + pieceToMove + " has moved to location "
-								+ Integer.toString(possibleDestination[0]));
+						System.out.println("Piece #" + pieceToMove + " has moved to location " + Integer.toString(possibleDestination[0]));
 						System.out.println();
 						moveInput = Integer.toString(possibleDestination[0]);
 					}
 					else {
-						System.out.println("The possible destinations to move to are: "
-								+ Integer.toString(possibleDestination[0]) + " and "
+						System.out.println("The possible destinations to move to are: " + Integer.toString(possibleDestination[0]) + " and "
 								+ Integer.toString(possibleDestination[1]));
 						do {
 							// only valid destinations are allowed
 							System.out.println("Please enter the destination to move to");
 							moveInput = sc.nextLine();
 							if ((moveInput.equals(Integer.toString(possibleDestination[0])))
-									|| (moveInput
-											.equals(Integer.toString(possibleDestination[1])))) {
+									|| (moveInput.equals(Integer.toString(possibleDestination[1])))) {
 								validInput = true;
 							}
 						}
@@ -201,19 +186,18 @@ public class Main {
 
 					// move the piece
 
-					// if piece has stack, update location for all the stack pieces
-					int stackSize = players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1)
-							.getSizeStackArray();
+					// if piece has stack, update location for all the stack
+					// pieces
+					int stackSize = players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getSizeStackArray();
 					if (stackSize != 0) {
 						for (int i = 0; i < stackSize; i++) {
-							players.get(currentPlayer).getPiece(players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1)
-									.getValueStickArray(i) - 1)
+							players.get(currentPlayer)
+									.getPiece(players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getValueStickArray(i) - 1)
 									.setLocation(Integer.parseInt(moveInput));
 						}
 					}
 					// move the chosen piece
-					players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1)
-							.setLocation(Integer.parseInt(moveInput));
+					players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).setLocation(Integer.parseInt(moveInput));
 
 					// if piece passes finish line
 					if (Integer.parseInt(moveInput) == 30) {
@@ -223,24 +207,27 @@ public class Main {
 						}
 
 						if (players.get(currentPlayer).hasWon()) {
-							System.out.println("Congratulations! You have won in " + Integer.toString(turn) + " turns!");
+							System.out.println("Congratulations! " + players.get(currentPlayer).getName() + " has won in " + Integer.toString(turn) + " turns!");
 							return;
 						}
 					}
 					else {
 						// check if piece can stack
 						if (b.getCount(Integer.parseInt(moveInput)) != 0) {
-							// get the piece number of the pieces that will be stacked
+							// get the piece number of the pieces that will be
+							// stacked
 							ArrayList<Integer> piecesToStack = new ArrayList<Integer>();
 							for (int i = 1; i < 5; i++) {
-								if (players.get(currentPlayer).getPiece(i-1).getLocation() == Integer.parseInt(moveInput) && !piecesToStack.contains(i)) {
+								if (players.get(currentPlayer).getPiece(i - 1).getLocation() == Integer.parseInt(moveInput)
+										&& !piecesToStack.contains(i)) {
 									piecesToStack.add(i);
 								}
 							}
 							// update the pieces stackArray info
 							for (int i = 0; i < piecesToStack.size(); i++) {
 								for (int j = 0; j < piecesToStack.size(); j++) {
-									if (i != j && players.get(currentPlayer).getPiece(piecesToStack.get(i) - 1).getIndexStackArray(piecesToStack.get(j)) == -1) {
+									if (i != j && players.get(currentPlayer).getPiece(piecesToStack.get(i) - 1)
+											.getIndexStackArray(piecesToStack.get(j)) == -1) {
 										players.get(currentPlayer).getPiece(piecesToStack.get(i) - 1).addStackArray(piecesToStack.get(j));
 									}
 								}
@@ -250,8 +237,7 @@ public class Main {
 
 					// update number of pieces at location on the board
 					if (startLocation == -1) {
-						b.setCount(Integer.parseInt(moveInput),
-								b.getCount(Integer.parseInt(moveInput)) + 1 + stackSize);
+						b.setCount(Integer.parseInt(moveInput), b.getCount(Integer.parseInt(moveInput)) + 1 + stackSize);
 					}
 					else {
 						b.setCount(startLocation, b.getCount(startLocation) - 1 - stackSize);
@@ -260,7 +246,7 @@ public class Main {
 				}
 				// increment turn
 				turn++;
-				
+
 				// rotate player
 				currentPlayer = (currentPlayer + 1) % Integer.parseInt(args[0]);
 			}
@@ -269,7 +255,7 @@ public class Main {
 					System.out.println("Are you sure you want to quit?");
 					String answer = sc.nextLine();
 					if (answer.equalsIgnoreCase("yes") || answer.equalsIgnoreCase("y")) {
-						System.out.println("You have quit the game.");
+						System.out.println("You have quit the game");
 						return;
 					}
 					else if (answer.equalsIgnoreCase("no") || answer.equalsIgnoreCase("n")) {

@@ -43,4 +43,13 @@ public class Player {
 	public String getName() {
 		return name;
 	}
+
+	public void printStatus() {
+		System.out.println("Player: " + name);
+		System.out.println("Piece 1's position: " + this.getPiece(0).getLocation());
+		System.out.println("Piece 2's position: " + this.getPiece(1).getLocation());
+		System.out.println("Piece 3's position: " + this.getPiece(2).getLocation());
+		System.out.println("Piece 4's position: " + this.getPiece(3).getLocation());
+		System.out.println();
+	}
 }

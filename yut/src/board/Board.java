@@ -28,7 +28,7 @@ public class Board {
 	// 30 is finished
 
 	// keeps track of number of pieces at the board location
-	private int[] boardArray = new int[30];
+	private int[] boardArray = new int[31];
 
 	// keep track of sticks thrown for the turn
 	private ArrayList<Integer> stickArray = new ArrayList<Integer>();
@@ -36,7 +36,7 @@ public class Board {
 	// creates the board
 	// initially no player have pieces on the board
 	public Board() {
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 31; i++) {
 			boardArray[i] = 0;
 		}
 	}
@@ -75,14 +75,14 @@ public class Board {
 	// determine how many spaces the piece will move on the board
 	public int throwStick() {
 		// add special throw, 0 and -1
-		int random = (int)(Math.random() * 100 + 1);
+		int random = (int) (Math.random() * 100 + 1);
 		if (random < 8) {
 			return 0;
 		}
 		else if (random > 93) {
 			return -1;
 		}
-		
+
 		// when thrown, the sticks are either "over" or "under"
 		// the stick have 2 sides
 		int over = 0;
