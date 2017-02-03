@@ -232,7 +232,17 @@ public class Main {
 									}
 								}
 							}
-						}
+							
+							// check if piece can eat other pieces
+							for (int i = 0; i < 4; i++) {
+								if (players.get(1-currentPlayer).getPiece(i).getLocation() == Integer.parseInt(moveInput)) {
+									players.get(1-currentPlayer).getPiece(i).setLocation(-1);
+									for (int j = 0; j < players.get(1-currentPlayer).getPiece(i).getSizeStackArray(); j++) {
+										players.get(1-currentPlayer).getPiece(i).removeStackArray(0);
+									}
+								}
+							}
+						}					
 					}
 
 					// update number of pieces at location on the board
