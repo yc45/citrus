@@ -112,10 +112,13 @@ public class Board {
 			return 3;
 		case 4:
 			return 4;
+		default: 
+			return -1;
 		}
+		
 
 		// code shouldn't reach here
-		return -1;
+
 	}
 
 	// > 29 means reaches the finish line

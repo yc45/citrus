@@ -27,13 +27,7 @@ public class Main {
 
 		System.out.println("Generating player information...");
 
-		if (args.length == 1 && args[0].equals("1")) {
-			players.add(new HumanPlayer());
-			System.out.println("Please enter your name");
-			String playerName = sc.nextLine();
-			players.get(0).setName(playerName);
-		}
-		else if (args.length == 1 && args[0].equals("2")) {
+		if (args.length == 1 && args[0].equals("2")) {
 			players.add(new HumanPlayer());
 			System.out.println("Player 1 please enter your name");
 			String playerName = sc.nextLine();
