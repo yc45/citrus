@@ -61,9 +61,8 @@ public class Main {
 			System.out.println("This is turn " + Integer.toString(turn));
 			System.out.println("It's " + players.get(currentPlayer).getName() + "'s turn");
 			System.out.println();
-			
+
 			do {
-				
 				System.out.println("Please input a command. Below are the valid commands");
 				System.out.println("[M]ove");
 				System.out.println("[Q]uit");
@@ -137,12 +136,12 @@ public class Main {
 					do {
 						System.out.println("Which throw would you like to use?");
 						throwToUse = sc.nextLine();
-						
+
 						// allows the player to go back and choose piece again
 						if (throwToUse.equals("b")) {
 							continue movePiece;
 						}
-						
+
 						if (Helpers.isInteger(throwToUse)) {
 							if (b.getIndexStickArray(Integer.parseInt(throwToUse)) != -1) {
 								b.removeStickArray(b.getIndexStickArray(Integer.parseInt(throwToUse)));
@@ -153,20 +152,19 @@ public class Main {
 					while (!validInput);
 					validInput = false;
 
-					// if piece is off the board and throw is -1, then do nothing
+					// if piece is off the board and throw is -1, then do
+					// nothing
 					if (players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation() == -1
 							&& Integer.parseInt(throwToUse) == -1) {
+						System.out.println("No movements");
 						continue;
 					}
 
 					// calculate possible locations the piece can move to
 					int startLocation = players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation();
 					String moveInput;
-					int[] possibleDestination = b.possibleLocation(
-							players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation(), Integer.parseInt(throwToUse));
+					int[] possibleDestination = b.possibleLocation(startLocation, Integer.parseInt(throwToUse));
 					if (possibleDestination[1] == -1) {
-						System.out.println("Piece #" + pieceToMove + " has moved to location " + Integer.toString(possibleDestination[0]));
-						System.out.println();
 						moveInput = Integer.toString(possibleDestination[0]);
 					}
 					else {
@@ -186,75 +184,38 @@ public class Main {
 					}
 
 					// move the piece
-
-					// if piece has stack, update location for all the stack
-					// pieces
-					int stackSize = players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getSizeStackArray();
-					if (stackSize != 0) {
-						for (int i = 0; i < stackSize; i++) {
-							players.get(currentPlayer)
-									.getPiece(players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getValueStickArray(i) - 1)
-									.setLocation(Integer.parseInt(moveInput));
-						}
-					}
-					// move the chosen piece
-					players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).setLocation(Integer.parseInt(moveInput));
-
-					// if piece passes finish line
-					if (Integer.parseInt(moveInput) == 30) {
-						for (int i = 0; i <= stackSize; i++) {
-							players.get(currentPlayer).addFinished();
-							System.out.println("You have finished a piece");
-						}
-
-						if (players.get(currentPlayer).hasWon()) {
-							System.out.println("Congratulations! " + players.get(currentPlayer).getName() + " has won in " + Integer.toString(turn) + " turns!");
-							return;
-						}
-					}
-					else {
-						// check if piece can stack
-						if (b.getCount(Integer.parseInt(moveInput)) != 0) {
-							// get the piece number of the pieces that will be
-							// stacked
-							ArrayList<Integer> piecesToStack = new ArrayList<Integer>();
-							for (int i = 1; i < 5; i++) {
-								if (players.get(currentPlayer).getPiece(i - 1).getLocation() == Integer.parseInt(moveInput)
-										&& !piecesToStack.contains(i)) {
-									piecesToStack.add(i);
-								}
-							}
-							// update the pieces stackArray info
-							for (int i = 0; i < piecesToStack.size(); i++) {
-								for (int j = 0; j < piecesToStack.size(); j++) {
-									if (i != j && players.get(currentPlayer).getPiece(piecesToStack.get(i) - 1)
-											.getIndexStackArray(piecesToStack.get(j)) == -1) {
-										players.get(currentPlayer).getPiece(piecesToStack.get(i) - 1).addStackArray(piecesToStack.get(j));
-									}
-								}
-							}
-							
-							// check if piece can eat other pieces
-							for (int i = 0; i < 4; i++) {
-								if (players.get(1-currentPlayer).getPiece(i).getLocation() == Integer.parseInt(moveInput)) {
-									players.get(1-currentPlayer).getPiece(i).setLocation(-1);
-									for (int j = 0; j < players.get(1-currentPlayer).getPiece(i).getSizeStackArray(); j++) {
-										players.get(1-currentPlayer).getPiece(i).removeStackArray(0);
-									}
-								}
-							}
-						}					
-					}
-
-					// update number of pieces at location on the board
 					if (startLocation == -1) {
-						b.setCount(Integer.parseInt(moveInput), b.getCount(Integer.parseInt(moveInput)) + 1 + stackSize);
+						players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).setLocation(Integer.parseInt(moveInput));
+						System.out.println("Piece #" + pieceToMove + " has moved to location " + moveInput);
 					}
 					else {
-						b.setCount(startLocation, b.getCount(startLocation) - 1 - stackSize);
-						b.setCount(Integer.parseInt(moveInput), b.getCount(Integer.parseInt(moveInput)) + 1 + stackSize);
+						for (int i = 0; i < 4; i++) {
+							if (players.get(currentPlayer).getPiece(i).getLocation() == startLocation) {
+								players.get(currentPlayer).getPiece(i).setLocation(Integer.parseInt(moveInput));
+								System.out.println("Piece #" + Integer.toString(i + 1) + " has moved to location " + moveInput);
+								System.out.println();
+
+								// if piece passes finish line
+								if (Integer.parseInt(moveInput) == 30) {
+									players.get(currentPlayer).addFinished();
+									System.out.println("You have finished a piece");
+								}
+							}
+						}
+					}
+					if (players.get(currentPlayer).hasWon()) {
+						System.out.println(
+								"Congratulations! " + players.get(currentPlayer).getName() + " has won in " + Integer.toString(turn) + " turns!");
+						return;
+					}
+					// check if piece can eat other pieces
+					for (int i = 0; i < 4; i++) {
+						if (players.get(1 - currentPlayer).getPiece(i).getLocation() == Integer.parseInt(moveInput)) {
+							players.get(1 - currentPlayer).getPiece(i).setLocation(-1);
+						}
 					}
 				}
+
 				// increment turn
 				turn++;
 

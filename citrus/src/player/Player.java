@@ -23,11 +23,6 @@ public class Player {
 		return pieces[index];
 	}
 
-	// return number of pieces that are finished
-	public int getFinished() {
-		return finished;
-	}
-
 	public void addFinished() {
 		finished += 1;
 	}

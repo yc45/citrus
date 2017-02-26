@@ -76,49 +76,28 @@ public class Board {
 	public int throwStick() {
 		// add special throw, 0 and -1
 		int random = (int) (Math.random() * 100 + 1);
-		if (random < 8) {
+		
+		if (random <= 25) {
+			return 2;
+		}
+		else if (random <= 50) {
+			return 3;
+		}
+		else if (random <= 65) {
+			return 1;
+		}
+		else if (random <= 80) {
+			return 4;
+		}
+		else if (random <= 90) {
+			return 5;
+		}
+		else if (random <= 95) {
+			return -1;
+		}
+		else {
 			return 0;
 		}
-		else if (random > 93) {
-			return -1;
-		}
-
-		// when thrown, the sticks are either "over" or "under"
-		// the stick have 2 sides
-		int over = 0;
-		int up = 0;
-
-		int result;
-
-		// throw 4 sticks and see which side they land on
-		for (int i = 0; i < 4; i++) {
-			result = (int) (Math.random() * 2);
-			if (result == 0) {
-				over++;
-			}
-			else {
-				up++;
-			}
-		}
-
-		switch (over) {
-		case 0:
-			return 5;
-		case 1:
-			return 1;
-		case 2:
-			return 2;
-		case 3:
-			return 3;
-		case 4:
-			return 4;
-		default: 
-			return -1;
-		}
-		
-
-		// code shouldn't reach here
-
 	}
 
 	// > 29 means reaches the finish line
