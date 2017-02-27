@@ -27,21 +27,15 @@ public class Main {
 
 		System.out.println("Generating player information...");
 
-		if (args.length == 1 && args[0].equals("2")) {
-			players.add(new HumanPlayer());
-			System.out.println("Player 1 please enter your name");
-			String playerName = sc.nextLine();
-			players.get(0).setName(playerName);
+		players.add(new HumanPlayer());
+		System.out.println("Player 1 please enter your name");
+		String playerName = sc.nextLine();
+		players.get(0).setName(playerName);
 
-			players.add(new HumanPlayer());
-			System.out.println("Player 2 please enter your name");
-			playerName = sc.nextLine();
-			players.get(1).setName(playerName);
-		}
-		else {
-			System.out.println("Please enter the correct args");
-			return;
-		}
+		players.add(new HumanPlayer());
+		System.out.println("Player 2 please enter your name");
+		playerName = sc.nextLine();
+		players.get(1).setName(playerName);
 
 		System.out.println("All Set!");
 		System.out.println();
@@ -154,28 +148,30 @@ public class Main {
 
 					// if piece is off the board and throw is -1, then do
 					// nothing
-					if (players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation() == -1
-							&& Integer.parseInt(throwToUse) == -1) {
+					int startLocation = players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation();
+					if (startLocation == -1 && Integer.parseInt(throwToUse) == -1) {
 						System.out.println("No movements");
 						continue;
 					}
 
 					// calculate possible locations the piece can move to
-					int startLocation = players.get(currentPlayer).getPiece(Integer.parseInt(pieceToMove) - 1).getLocation();
+
 					String moveInput;
 					int[] possibleDestination = b.possibleLocation(startLocation, Integer.parseInt(throwToUse));
-					if (possibleDestination[1] == -1) {
-						moveInput = Integer.toString(possibleDestination[0]);
+					int location1 = possibleDestination[0];
+					int location2 = possibleDestination[1];
+
+					if (location2 == -1) {
+						moveInput = Integer.toString(location1);
 					}
 					else {
-						System.out.println("The possible destinations to move to are: " + Integer.toString(possibleDestination[0]) + " and "
-								+ Integer.toString(possibleDestination[1]));
+						System.out.println(
+								"The possible destinations to move to are: " + Integer.toString(location1) + " and " + Integer.toString(location2));
 						do {
 							// only valid destinations are allowed
 							System.out.println("Please enter the destination to move to");
 							moveInput = sc.nextLine();
-							if ((moveInput.equals(Integer.toString(possibleDestination[0])))
-									|| (moveInput.equals(Integer.toString(possibleDestination[1])))) {
+							if ((moveInput.equals(Integer.toString(location1))) || (moveInput.equals(Integer.toString(location2)))) {
 								validInput = true;
 							}
 						}
@@ -193,7 +189,6 @@ public class Main {
 							if (players.get(currentPlayer).getPiece(i).getLocation() == startLocation) {
 								players.get(currentPlayer).getPiece(i).setLocation(Integer.parseInt(moveInput));
 								System.out.println("Piece #" + Integer.toString(i + 1) + " has moved to location " + moveInput);
-								System.out.println();
 
 								// if piece passes finish line
 								if (Integer.parseInt(moveInput) == 30) {
@@ -216,6 +211,8 @@ public class Main {
 					}
 				}
 
+				System.out.println();
+				
 				// increment turn
 				turn++;
 
