@@ -72,7 +72,7 @@ public class Main {
 			// if the user chooses to move this turn
 			if (userCommand.equalsIgnoreCase("m") || userCommand.equalsIgnoreCase("move")) {
 				// print the status of the players
-				for (int i = 0; i < Integer.parseInt(args[0]); i++) {
+				for (int i = 0; i < 2; i++) {
 					players.get(i).printStatus();
 				}
 
