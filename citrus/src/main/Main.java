@@ -217,7 +217,7 @@ public class Main {
 				turn++;
 
 				// rotate player
-				currentPlayer = (currentPlayer + 1) % Integer.parseInt(args[0]);
+				currentPlayer = (currentPlayer + 1) % 2;
 			}
 			else if (userCommand.equalsIgnoreCase("q")) {
 				do {
