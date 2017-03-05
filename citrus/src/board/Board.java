@@ -1,37 +1,8 @@
 package board;
 
-import java.util.ArrayList;
-
 public class Board {
-	/*represent board
-
-	  10 9  8  7  6  5
-
-	  11 25       20 4
-
-	  12    26  21   3
-
-	          22
-
-	  13    23  27   2
-
-	  14 24       28 1
-
-	  15 16 17 18 19 0 30(finish)
-	  				
-	  				-1
-
-	*/
-
-	// position 5, 10, and 22 are special as player can change direction
-	// -1 is off the board
-	// 30 is finished
-
 	// keeps track of number of pieces at the board location
 	private int[] boardArray = new int[31];
-
-	// keep track of sticks thrown for the turn
-	private ArrayList<Integer> stickArray = new ArrayList<Integer>();
 
 	// creates the board
 	// initially no player have pieces on the board
@@ -41,54 +12,7 @@ public class Board {
 		}
 	}
 
-	// add throw result to the stick array
-	public void addStickArray(int value) {
-		stickArray.add(value);
-	}
-
-	public void removeStickArray(int index) {
-		stickArray.remove(index);
-	}
-
-	public int getSizeStickArray() {
-		return stickArray.size();
-	}
-
-	public int getValueStickArray(int index) {
-		return stickArray.get(index);
-	}
-
-	public int getIndexStickArray(int value) {
-		return stickArray.indexOf(value);
-	}
-
 	// determine how many spaces the piece will move on the board
-	public int throwStick() {
-		int random = (int) (Math.random() * 100 + 1);
-		
-		if (random <= 25) {
-			return 2;
-		}
-		else if (random <= 50) {
-			return 3;
-		}
-		else if (random <= 65) {
-			return 1;
-		}
-		else if (random <= 80) {
-			return 4;
-		}
-		else if (random <= 90) {
-			return 5;
-		}
-		else if (random <= 95) {
-			return -1;
-		}
-		else {
-			return 0;
-		}
-	}
-
 	// > 29 means reaches the finish line
 	public int[] possibleLocation(int begin, int stick) {
 		int[] result = new int[2];
