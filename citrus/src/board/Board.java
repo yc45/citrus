@@ -14,7 +14,7 @@ public class Board {
 
 	// determine how many spaces the piece will move on the board
 	// > 29 means reaches the finish line
-	public int[] possibleLocation(int begin, int stick) {
+	public static int[] possibleLocation(int begin, int stick) {
 		int[] result = new int[2];
 		result[0] = -1;
 		result[1] = -1;
