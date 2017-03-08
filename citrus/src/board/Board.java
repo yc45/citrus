@@ -245,7 +245,7 @@ public class Board {
 		return result;
 	}
 
-	public void printBoardReference() {
+	public static void printBoardReference() {
 		System.out.print(Integer.toString(10) + " ");
 		System.out.print(Integer.toString(9) + "  ");
 		System.out.print(Integer.toString(8) + "  ");

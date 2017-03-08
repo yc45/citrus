@@ -38,8 +38,24 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public String choosePiece() {
+		// print the status of the players
+		for (int i = 0; i < 2; i++) {
+			Main.players.get(i).printStatus();
+		}
+
+		// print board reference
+		System.out.println("Here is the board for reference");
+		Board.printBoardReference();
+
 		boolean validInput = false;
 		String pieceToMove;
+
+		// print all the throws for the turn
+		System.out.println("Here are your stick values");
+		for (int i = 0; i < this.getSizeStickArray(); i++) {
+			System.out.print(this.getValueStickArray(i) + " ");
+		}
+		System.out.println();
 
 		do {
 			System.out.println("Which piece would you like to move?");
@@ -57,13 +73,6 @@ public class HumanPlayer extends Player {
 	public String chooseThrow() {
 		boolean validInput = false;
 		String throwToUse;
-
-		// print all the throws for the turn
-		System.out.println("Here are your stick values");
-		for (int i = 0; i < this.getSizeStickArray(); i++) {
-			System.out.print(this.getValueStickArray(i) + " ");
-		}
-		System.out.println();
 
 		// player chooses a valid throw to use
 		do {

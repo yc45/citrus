@@ -69,6 +69,7 @@ public abstract class Player {
 				break;
 			}
 		}
+		System.out.println();
 	}
 
 	// check if this piece is valid to be moved for the turn
@@ -122,10 +123,17 @@ public abstract class Player {
 
 	public void printStatus() {
 		System.out.println("Player: " + name);
-		System.out.println("Piece 1's position: " + this.getPiece(0).getLocation());
-		System.out.println("Piece 2's position: " + this.getPiece(1).getLocation());
-		System.out.println("Piece 3's position: " + this.getPiece(2).getLocation());
-		System.out.println("Piece 4's position: " + this.getPiece(3).getLocation());
+		for (int i = 0; i < 4; i++) {
+			if (this.getPiece(i).getLocation() == -1) {
+				System.out.println("Piece " + i + "'s position: off");
+			}
+			else if (this.getPiece(i).getLocation() == 30) {
+				System.out.println("Piece " + i + "'s position: finished");
+			}
+			else {
+				System.out.println("Piece " + i + "'s position: " + this.getPiece(i).getLocation());
+			}
+		}
 		System.out.println();
 	}
 

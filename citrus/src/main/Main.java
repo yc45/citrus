@@ -39,7 +39,7 @@ public class Main {
 		// setting up player information
 		if (decision.equals("1")) {
 			players.add(new HumanPlayer());
-			System.out.println("Player 1 please enter your name");
+			System.out.println("Please enter your name");
 			String playerName = sc.nextLine();
 			players.get(0).setName(playerName);
 
@@ -77,15 +77,6 @@ public class Main {
 
 			// if the user chooses to move this turn
 			if (playerCommand.equalsIgnoreCase("m") || playerCommand.equalsIgnoreCase("move")) {
-				// print the status of the players
-				for (int i = 0; i < 2; i++) {
-					players.get(i).printStatus();
-				}
-
-				// print board reference
-				System.out.println("Here is the board for reference");
-				b.printBoardReference();
-
 				// throw sticks for the turn
 				players.get(currentPlayer).throwSticks();
 
@@ -110,7 +101,7 @@ public class Main {
 					}
 					// check if piece can eat other pieces
 					for (int i = 0; i < 4; i++) {
-						if (players.get(1 - currentPlayer).getPiece(i).getLocation() == Integer.parseInt(moveInput)) {
+						if (players.get(1 - currentPlayer).getPiece(i).getLocation() == Integer.parseInt(moveInput) && Integer.parseInt(moveInput) != 30) {
 							players.get(1 - currentPlayer).getPiece(i).setLocation(-1);
 							System.out.println(
 									players.get(1 - currentPlayer).getName() + "'s piece " + Integer.toString(i + 1) + " has been sent back.");
