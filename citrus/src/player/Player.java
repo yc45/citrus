@@ -123,15 +123,15 @@ public abstract class Player {
 
 	public void printStatus() {
 		System.out.println("Player: " + name);
-		for (int i = 0; i < 4; i++) {
-			if (this.getPiece(i).getLocation() == -1) {
+		for (int i = 1; i < 5; i++) {
+			if (this.getPiece(i-1).getLocation() == -1) {
 				System.out.println("Piece " + i + "'s position: off");
 			}
-			else if (this.getPiece(i).getLocation() == 30) {
+			else if (this.getPiece(i-1).getLocation() == 30) {
 				System.out.println("Piece " + i + "'s position: finished");
 			}
 			else {
-				System.out.println("Piece " + i + "'s position: " + this.getPiece(i).getLocation());
+				System.out.println("Piece " + i + "'s position: " + this.getPiece(i-1).getLocation());
 			}
 		}
 		System.out.println();
